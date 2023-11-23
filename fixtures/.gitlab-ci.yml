@@ -21,7 +21,7 @@
     - mv bin/dagger /usr/local/bin
     - dagger version
 
-base:
+tests:
   extends: .dagger
   script:
     - fluentci run .

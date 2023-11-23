@@ -1,7 +1,7 @@
 import { JobSpec, Workflow } from "fluent_github_actions";
 
 export function generateYaml(): Workflow {
-  const workflow = new Workflow("base");
+  const workflow = new Workflow("Gitleaks");
 
   const push = {
     branches: ["main"],

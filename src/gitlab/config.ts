@@ -23,10 +23,10 @@ export function generateYaml(): GitlabCI {
     `
   );
 
-  const base = new Job().extends(".dagger").script("fluentci run .");
+  const tests = new Job().extends(".dagger").script("fluentci run .");
 
   return new GitlabCI()
     .addJob(".docker", docker)
     .addJob(".dagger", dagger)
-    .addJob("base", base);
+    .addJob("tests", tests);
 }
