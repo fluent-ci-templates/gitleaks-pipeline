@@ -18,7 +18,7 @@ export const detect = async (src: string | Directory | undefined = ".") => {
       .from("pkgxdev/pkgx:latest")
       .withDirectory("/app", context)
       .withWorkdir("/app")
-      .withExec(["pkgx", "install", "gitleaks"])
+      .withExec(["pkgx", "install", "gitleaks", "git"])
       .withExec(["gitleaks", "detect", "-v", "-r", "gitleaks-report.json"]);
 
     await ctr.stdout();
