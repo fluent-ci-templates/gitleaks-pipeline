@@ -1,7 +1,7 @@
 import { uploadContext } from "../../deps.ts";
 import * as jobs from "./jobs.ts";
 
-const { hello, runnableJobs, exclude } = jobs;
+const { detect, runnableJobs, exclude } = jobs;
 
 export default async function pipeline(src = ".", args: string[] = []) {
   if (Deno.env.has("FLUENTCI_SESSION_ID")) {
@@ -12,7 +12,7 @@ export default async function pipeline(src = ".", args: string[] = []) {
     return;
   }
 
-  await hello();
+  await detect();
 }
 
 async function runSpecificJobs(args: jobs.Job[]) {
