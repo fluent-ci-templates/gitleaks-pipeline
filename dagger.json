@@ -1,4 +1,4 @@
 {
-  "name": "base",
+  "name": "gitleaks",
   "sdk": "github.com/fluentci-io/daggerverse/deno-sdk@main"
 }
