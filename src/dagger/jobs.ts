@@ -11,7 +11,7 @@ export const exclude = [];
 /**
  * @function
  * @description Detect secrets in code
- * @param src {src: string | Directory | undefined}
+ * @param {string | Directory | undefined} src
  * @returns {string}
  */
 export async function detect(
