@@ -1,4 +1,4 @@
-import Client, { Directory } from "../../deps.ts";
+import Client, { Directory, File } from "../../deps.ts";
 import { connect } from "../../sdk/connect.ts";
 import { getDirectory } from "./lib.ts";
 
@@ -8,7 +8,15 @@ export enum Job {
 
 export const exclude = [];
 
-export const detect = async (src: string | Directory | undefined = ".") => {
+/**
+ * @function
+ * @description Detect secrets in code
+ * @param src {src: string | Directory | undefined}
+ * @returns {string}
+ */
+export async function detect(
+  src: string | Directory | undefined = "."
+): Promise<File | string> {
   let id = "";
   await connect(async (client: Client) => {
     const context = getDirectory(client, src);
@@ -26,16 +34,9 @@ export const detect = async (src: string | Directory | undefined = ".") => {
   });
 
   return id;
-};
+}
 
-export type JobExec = (src?: string) =>
-  | Promise<string>
-  | ((
-      src?: string,
-      options?: {
-        ignore: string[];
-      }
-    ) => Promise<string>);
+export type JobExec = (src?: string) => Promise<File | string>;
 
 export const runnableJobs: Record<Job, JobExec> = {
   [Job.detect]: detect,
