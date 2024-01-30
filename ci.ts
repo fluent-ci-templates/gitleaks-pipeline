@@ -1,3 +1,3 @@
-import { hello } from "https://pkg.fluentci.io/base_pipeline@v0.5.3/mod.ts";
+import { detect } from "https://pkg.fluentci.io/gitleaks_pipeline@v0.1.1/mod.ts";
 
-await hello();
+await detect();
