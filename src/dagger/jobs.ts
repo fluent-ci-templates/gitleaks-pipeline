@@ -1,5 +1,4 @@
-import Client, { Directory, File } from "../../deps.ts";
-import { connect } from "../../sdk/connect.ts";
+import { Directory, File, dag } from "../../deps.ts";
 import { getDirectory } from "./lib.ts";
 
 export enum Job {
@@ -17,21 +16,19 @@ export const exclude = [];
 export async function detect(
   src: string | Directory | undefined = "."
 ): Promise<File | string> {
-  let id = "";
-  await connect(async (client: Client) => {
-    const context = getDirectory(client, src);
-    const ctr = client
-      .pipeline(Job.detect)
-      .container()
-      .from("pkgxdev/pkgx:latest")
-      .withDirectory("/app", context)
-      .withWorkdir("/app")
-      .withExec(["pkgx", "install", "gitleaks", "git"])
-      .withExec(["gitleaks", "detect", "-v", "-r", "gitleaks-report.json"]);
+  const context = await getDirectory(dag, src);
+  const ctr = dag
+    .pipeline(Job.detect)
+    .container()
+    .from("pkgxdev/pkgx:latest")
+    .withDirectory("/app", context)
+    .withWorkdir("/app")
+    .withExec(["pkgx", "install", "gitleaks", "git"])
+    .withExec(["gitleaks", "detect", "-v", "-r", "gitleaks-report.json"]);
 
-    await ctr.stdout();
-    id = await ctr.file("gitleaks-report.json").id();
-  });
+  await ctr.stdout();
+  const id = await ctr.file("gitleaks-report.json").id();
+  ctr.file("gitleaks-report.json").export("./gitleaks-report.json");
 
   return id;
 }

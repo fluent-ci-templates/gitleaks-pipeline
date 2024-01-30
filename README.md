@@ -51,7 +51,7 @@ detect(src: String): String
 You can also use this pipeline programmatically:
 
 ```ts
-import { detect } from "https://pkg.fluentci.io/gitleaks_pipeline@v0.1.0/mod.ts";
+import { detect } from "https://pkg.fluentci.io/gitleaks_pipeline@v0.1.1/mod.ts";
 
 await detect();
 ```
