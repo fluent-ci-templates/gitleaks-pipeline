@@ -1,4 +1,3 @@
-import pipeline from "./pipeline.ts";
-import { detect, jobDescriptions } from "./jobs.ts";
+import { detect } from "./jobs.ts";
 
-export { pipeline, detect, jobDescriptions };
+export { detect };

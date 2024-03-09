@@ -1,3 +1,7 @@
+/**
+ * @module gitleaks
+ * @description This module provides a function to detect secrets in code using gitleaks
+ */
 import { Directory, File, dag } from "../../deps.ts";
 import { getDirectory } from "./lib.ts";
 
@@ -8,6 +12,8 @@ export enum Job {
 export const exclude = [];
 
 /**
+ * Detect secrets in code
+ *
  * @function
  * @description Detect secrets in code
  * @param {string | Directory | undefined} src
@@ -16,7 +22,7 @@ export const exclude = [];
 export async function detect(
   src: string | Directory | undefined = "."
 ): Promise<File | string> {
-  const context = await getDirectory(dag, src);
+  const context = await getDirectory(src);
   const ctr = dag
     .pipeline(Job.detect)
     .container()
@@ -27,10 +33,8 @@ export async function detect(
     .withExec(["gitleaks", "detect", "-v", "-r", "gitleaks-report.json"]);
 
   await ctr.stdout();
-  const id = await ctr.file("gitleaks-report.json").id();
   ctr.file("gitleaks-report.json").export("./gitleaks-report.json");
-
-  return id;
+  return ctr.file("gitleaks-report.json").id();
 }
 
 export type JobExec = (src?: string) => Promise<File | string>;
